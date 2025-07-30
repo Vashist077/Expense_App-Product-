@@ -1,9 +1,9 @@
 import psycopg
 
-async def db_connection():
+def db_connection():
     return psycopg.connect(
-        dbname = "test",
-        user = "testing",
-        password = "962006",
-        host = "127.0.0.1"
-    )
+    dbname = "test",
+    user = "testing",
+    password = "962006",
+    host = "127.0.0.1"
+ )

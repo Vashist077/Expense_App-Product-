@@ -5,4 +5,3 @@ class Signup(BaseModel):
     email: str
     mobile: str
     password: str
-    cpassword: str
