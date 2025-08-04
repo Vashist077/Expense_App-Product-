@@ -1,6 +1,9 @@
 
 
+import 'package:extrack/data/expense_data.dart';
+import 'package:extrack/models/expense_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -68,14 +71,36 @@ class _HomepageState extends State<Homepage> {
       },
     );
   }
-  void add() {
+  void add() 
+  {
+     Provider.of<Expensedata>(context, listen: false).addExpense(
+      ExpenseItem(
+        name: newexpenseNameController.text,
+        amount: newexpenseAmountController.text,
+        date: DateTime.now()
+      )
+     );
+     clear();
+     // close the dialog 
+    
+    Navigator.of(context).pop();
+  }
+  void cancel()
+  {
+    Navigator.of(context).pop();
+    clear();
+  }
 
+  void clear()
+  {
+    newexpenseNameController.clear();
+    newexpenseAmountController.clear();
   }
-  void cancel() {
-  }
+
+
   @override
   Widget build(BuildContext context) {
-    return 
+    return Consumer<Expensedata>(builder: (context,value,child) => 
        Scaffold(
         body:CustomScrollView(
           physics: const BouncingScrollPhysics(),
@@ -135,7 +160,7 @@ class _HomepageState extends State<Homepage> {
               expandedHeight: MediaQuery.of(context).size.height * 0.45,
               backgroundColor: const Color.fromRGBO(52, 49, 199, 1),
               floating: false,
-              pinned: true,
+              pinned: false,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
@@ -319,9 +344,37 @@ class _HomepageState extends State<Homepage> {
                 (
                   (BuildContext context , int index) {
                   return Container (
-               
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          value.getAllExpensesList()[index].name,
+                          
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'poppins',
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                    
+                        Text(
+                          '₹' + 
+                          value.getAllExpensesList()[index].amount,
+
+                          
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'poppins',
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ],
+                    ),
+
                 margin: const EdgeInsets.only(left: 20,right: 20 , top:  10 ,bottom: 10),
                 height: MediaQuery.of(context).size.height * 0.11,
+                
                 
                  decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -336,7 +389,7 @@ class _HomepageState extends State<Homepage> {
               
                   
                   },
-                  childCount: 7,
+                  childCount: Provider.of<Expensedata>(context).getAllExpensesList().length,
                   
                   
                 ),
@@ -349,7 +402,7 @@ class _HomepageState extends State<Homepage> {
           
         ),
        
-       
+       )
       );
 
     
