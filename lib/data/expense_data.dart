@@ -1,28 +1,34 @@
 import 'package:extrack/datetime/date_time_helper.dart';
+import 'package:extrack/home.dart';
 import 'package:extrack/models/expense_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Expensedata extends ChangeNotifier {
+final expenseDataProvider =
+    StateNotifierProvider<Expensedata, List<ExpenseItem>>(
+  (ref) => Expensedata(),
+);
 
+class Expensedata extends StateNotifier<List<ExpenseItem>>{
+  Expensedata():super([]);
   //list of all expenses
-  List<ExpenseItem> overallExpensesList  = [];
+  
   //get all expenses
   List<ExpenseItem> getAllExpensesList()
-  {
-    return overallExpensesList;
-  }
+  => 
+    state;
+  
   //add an expense
   void addExpense(ExpenseItem expense)
   {
-    overallExpensesList.add(expense);
-    notifyListeners();
+    state=[...state,expense];
+    
     
   }
   //delete an expense
   void deleteExpense(ExpenseItem expense)
   {
-    overallExpensesList.remove(expense);
-    notifyListeners();
+    state =state.where((e)=>e!=expense).toList();
   }
   //get weekday expenses (particular daytime)
 
@@ -87,7 +93,7 @@ class Expensedata extends ChangeNotifier {
       //date yyyymmdd : amountTotalforday
     };
 
-    for(var expense in overallExpensesList)
+    for(var expense in state)
     {
       String date = convertDateTimeToString(expense.date);
       double amount = double.parse(expense.amount);

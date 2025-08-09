@@ -1,10 +1,9 @@
 import 'package:extrack/bottompage/pages.dart';
-import 'package:extrack/data/expense_data.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -12,12 +11,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Expensedata(),
-      builder: (context, child) => const MaterialApp(
-        home: Pages(),
-        
-      ),
+    return const MaterialApp(
+      home: Pages(),
     );
   }
 }
