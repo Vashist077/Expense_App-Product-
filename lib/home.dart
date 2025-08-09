@@ -79,7 +79,8 @@ class _HomepageState extends ConsumerState<Homepage> {
         name: newexpenseNameController.text,
         amount: newexpenseAmountController.text,
         date: DateTime.now()
-      )
+      ),
+      
      );
      clear();
      // close the dialog 
